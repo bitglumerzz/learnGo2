@@ -44,19 +44,29 @@ func (calc *Calculator) toRoman(num int) string {
 		panic("Результат работы с римскими числами не может быть меньше единицы")
 	}
 
-	romanNumeralsReverse := make(map[int]string)
-	for key, value := range calc.romanNumerals {
-		romanNumeralsReverse[value] = key
+	romanNumerals := []struct {
+		Value  int
+		Symbol string
+	}{
+		{100, "C"},
+		{90, "XC"},
+		{50, "L"},
+		{40, "XL"},
+		{10, "X"},
+		{9, "IX"},
+		{5, "V"},
+		{4, "IV"},
+		{1, "I"},
 	}
 
 	result := ""
-	values := []int{10, 9, 5, 4, 1}
-	for _, value := range values {
-		for num >= value {
-			result += romanNumeralsReverse[value]
-			num -= value
+	for _, numeral := range romanNumerals {
+		for num >= numeral.Value {
+			result += numeral.Symbol
+			num -= numeral.Value
 		}
 	}
+
 	return result
 }
 
